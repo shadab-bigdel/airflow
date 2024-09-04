@@ -1,0 +1,15 @@
+executor: "KubernetesExecutor"
+dags:  
+  gitSync:
+    enabled: true
+    # Git repository URL
+    repo: https://github.com/shadab-bigdel/airflow-helm-chart.git
+    branch: main
+    # The Git revision to check out (branch, tag, or hash)
+    ref: main
+    depth: 1
+    # Maximum number of consecutive failures allowed before aborting
+    maxFailures: 0
+    # Subpath within the repo where DAGs are located
+    # Should be "" if DAGs are at the repo root
+    subPath: "dags"
