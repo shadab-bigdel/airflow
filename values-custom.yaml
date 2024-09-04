@@ -11,7 +11,7 @@ dags:
   gitSync:
     enabled: true
     # Git repository URL
-    repo: https://github.com/shadab-bigdel/airflow-helm-chart.git
+    repo: https://github.com/shadab-bigdel/airflow.git
     branch: main
     # The Git revision to check out (branch, tag, or hash)
     ref: main
