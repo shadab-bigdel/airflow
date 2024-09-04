@@ -5,6 +5,8 @@ createUserJob:
 migrateDatabaseJob:
   useHelmHooks: false
   applyCustomEnv: false
+  jobAnnotations:
+    "argocd.argoproj.io/hook": Sync
 dags:  
   gitSync:
     enabled: true
