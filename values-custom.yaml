@@ -21,4 +21,6 @@ dags:
     # Subpath within the repo where DAGs are located
     # Should be "" if DAGs are at the repo root
     subPath: "dags"
-    maxSyncFailures: 1
+volumes:
+  - name: dags
+    emptyDir: {}
