@@ -21,5 +21,4 @@ dags:
     # Subpath within the repo where DAGs are located
     # Should be "" if DAGs are at the repo root
     subPath: "dags"
-    oneTime: "false"
     maxSyncFailures: 1
