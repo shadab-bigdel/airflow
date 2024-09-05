@@ -21,15 +21,33 @@ dags:
     # Subpath within the repo where DAGs are located
     # Should be "" if DAGs are at the repo root
     subPath: "dags"
+# Define volumes and volume mounts for logs
 airflow:
   config:
     core:
-      base_log_folder: /opt/airflow/logs  # Ensure this matches the mountPath in the volumeMounts
-volumes:
-  - name: logs
-    hostPath:
-      path: C:\Users\sbigdel\airflow-logs
-      type: Directory
-volumeMounts:
-  - name: logs
-    mountPath: /opt/airflow/logs
+      base_log_folder: /opt/airflow/logs
+  
+  # Define volumes
+  scheduler:
+    volumes:
+      - name: logs
+        hostPath:
+          path: C:\Users\sbigdel\airflow-logs
+          type: Directory
+    
+  web:
+    volumeMounts:
+      - name: logs
+        mountPath: /opt/airflow/logs
+    
+  worker:
+    volumeMounts:
+      - name: logs
+        mountPath: /opt/airflow/logs
+
+  # Specify volume mounts for init containers if necessary
+  initContainers:
+    - name: init-logs
+      volumeMounts:
+        - name: logs
+          mountPath: /opt/airflow/logs
