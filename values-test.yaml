@@ -1,0 +1,41 @@
+executor: "KubernetesExecutor"
+airflow:
+  ## if we use legacy 1.10 airflow commands
+  legacyCommands: false
+  image:
+    repository: apache/airflow
+    tag: slim-2.9.3-python3.11
+    pullPolicy: IfNotPresent
+  config:    
+    AIRFLOW__CORE__BASE_LOG_FOLDER: "/opt/airflow/logs"
+    AIRFLOW__LOGGING__LOGGING_LEVEL: INFO
+  ##extraVolumeMounts:
+  ##  - name: airflow-pvc
+  ##    mountPath: "/opt/airflow"
+  ##extraVolumes:
+  ##  - name: airflow-pvc
+  ##    persistentVolumeClaim:
+  ##      claimName: airflow-pvc 
+logs:
+  # Configuration for empty dir volume (if logs.persistence.enabled == false)
+  emptyDirConfig:
+    sizeLimit: 1Gi
+    medium: Memory
+
+  persistence:
+    # Enable persistent volume for storing logs
+    enabled: false 
+dags:  
+  gitSync:
+    enabled: true
+    # Git repository URL
+    repo: https://github.com/shadab-bigdel/airflow.git
+    branch: main
+    # The Git revision to check out (branch, tag, or hash)
+    ref: main
+    depth: 1
+    # Maximum number of consecutive failures allowed before aborting
+    maxFailures: 0
+    # Subpath within the repo where DAGs are located
+    # Should be "" if DAGs are at the repo root
+    subPath: "dags"
