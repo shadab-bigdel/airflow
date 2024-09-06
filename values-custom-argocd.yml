@@ -1,4 +1,12 @@
 executor: "KubernetesExecutor"
+createUserJob:
+  useHelmHooks: false
+  applyCustomEnv: false
+migrateDatabaseJob:
+  useHelmHooks: false
+  applyCustomEnv: false
+  jobAnnotations:
+    "argocd.argoproj.io/hook": Sync
 dags:  
   gitSync:
     enabled: true
@@ -13,13 +21,5 @@ dags:
     # Subpath within the repo where DAGs are located
     # Should be "" if DAGs are at the repo root
     subPath: "dags"
-airflow:
-  extraVolumeMounts:
-    - name: airflow-logs
-      mountPath: /opt/airflow/logs
 
-extraVolumes:
-  - name: airflow-logs
-    hostPath:
-      path: /mnt/host/airflow_logs
-      type: Directory
+#minikube mount C:\airflow_logs:/mnt/host/airflow_logs
