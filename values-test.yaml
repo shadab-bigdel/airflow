@@ -7,8 +7,8 @@ airflow:
     tag: slim-2.9.3-python3.11
     pullPolicy: IfNotPresent
   config:    
-    core:
-      base_log_folder: /mnt/airflow-logs
+   core:
+     base_log_folder: /mnt/airflow-logs
 #  extraVolumes:
 #   - name: airflow-logs
 #     hostPath:
