@@ -1,18 +1,14 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: airflow-logs-pv
-  labels:
-    type: local
+  name: airflow-logs-pv  
 spec:
-  storageClassName: manual
   capacity:
-    storage: 2Gi
+    storage: 10Gi  # Adjust storage size as needed
   accessModes:
-    - ReadWriteOnce  
+    - ReadWriteMany  # Allow multiple pods to read/write
   hostPath:
-    path: /mnt/airflow-logs
-    type: Directory
+    path: /mnt/c/user/sbigdel/airflow-logs  # Directory inside Docker's Linux VM, adjust as needed
 
 
 #minikube mount C:\Users\sbigdel\airflow-logs:/mnt/airflow-logs

@@ -1,4 +1,11 @@
 executor: "KubernetesExecutor"
+logs:
+  persistence:
+    enabled: true
+    existingClaim: airflow-logs-pvc  # Use the name of the PVC you created
+    subPath: airflow-logs  # Subdirectory inside the PVC
+    accessMode: ReadWriteMany
+    size: 10Gi  # Match this to the PVC
 dags:  
   gitSync:
     enabled: true

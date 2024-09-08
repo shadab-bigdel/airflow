@@ -4,9 +4,8 @@ metadata:
   name: airflow-logs-pvc
   namespace: airflow
 spec:
-  storageClassName: manual
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
-      storage: 2Gi    
+      storage: 10Gi  # Match the storage size with the PV
