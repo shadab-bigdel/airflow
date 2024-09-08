@@ -13,3 +13,6 @@ spec:
   hostPath:
     path: /mnt/airflow-logs
     type: Directory
+
+
+#minikube mount C:\Users\sbigdel\airflow-logs:/mnt/airflow-logs
