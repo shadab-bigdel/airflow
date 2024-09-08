@@ -19,7 +19,7 @@ logs:
     # Enable persistent volume for storing logs
     enabled: true
     storageClassName: local-storage
-    existingClaim: airflow-local-logs-folder
+    existingClaim: airflow-logs-pvc
 dags:  
   gitSync:
     enabled: true
