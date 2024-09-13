@@ -1,34 +1,43 @@
 from airflow import DAG # type: ignore
-from airflow.operators.python import PythonOperator # type: ignore
-from datetime import datetime
+from airflow.operators.python_operator import PythonOperator # type: ignore
+from datetime import datetime, timedelta
 import logging
 
-# Define functions for tasks
-def log_hello_message():
-    logging.info("Hello log from DAG")
+# Default arguments for the DAG
+default_args = {
+    'owner': 'airflow',
+    'depends_on_past': False,
+    'start_date': datetime(2023, 9, 13),
+    'email_on_failure': False,
+    'email_on_retry': False,
+    'retries': 1,
+    'retry_delay': timedelta(minutes=5),
+}
 
-def log_goodbye_message():
-    logging.info("Goodbye log from DAG")
+# Define the task that will be executed
+def sample_task(**kwargs):
+    logging.info("This is an info log.")  # Info log example
+    try:
+        # Your task logic here
+        # Simulate an error
+        raise ValueError("An error occurred!")
+    except Exception as e:
+        logging.error(f"Error encountered: {str(e)}")  # Error log example
 
-# Define the DAG
-with DAG(
-    dag_id='manual_hello_log_dag',
-    start_date=datetime(2023, 9, 8),
-    schedule_interval=None,
-    catchup=False,
-    tags=['example'],
-) as dag:
-    
-    # Define tasks
-    log_hello_task = PythonOperator(
-        task_id='log_hello_message',
-        python_callable=log_hello_message,
+# Define the DAG and set up the task execution flow
+with DAG('sample_dag',
+         default_args=default_args,
+         description='A simple DAG for logging to S3',
+         schedule_interval='@daily',
+         catchup=False) as dag:
+
+    # Define the task
+    task = PythonOperator(
+        task_id='sample_task',
+        python_callable=sample_task,
+        provide_context=True  # Ensures kwargs are passed
     )
 
-    log_goodbye_task = PythonOperator(
-        task_id='log_goodbye_message',
-        python_callable=log_goodbye_message,
-    )
+    # You can add more tasks here and set dependencies as needed
+    task  # This triggers task execution in Airflow
 
-    # Set task dependencies
-    log_hello_task >> log_goodbye_task
