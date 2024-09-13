@@ -1,12 +1,18 @@
 executor: "KubernetesExecutor"
 airflow:
   config:
-    logging:
-      remote_logging: "True"
-      remote_log_conn_id: "aws_default"  # The connection ID from Step 1
-      remote_base_log_folder: "s3://airflow-dags-k8s/airflow-logs"
-      logging_level: "INFO"  # Set logging level to INFO, but can also set to "ERROR"
-
+    AIRFLOW__LOGGING__REMOTE_LOGGING: "True"
+    AIRFLOW__LOGGING__REMOTE_LOG_CONN_ID: "aws_default"
+    AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER: "s3://airflow-dags-k8s/airflow-logs"
+    AIRFLOW__LOGGING__LOG_LEVEL: "INFO"
+    AIRFLOW__LOGGING__S3_LOG_FOLDER: "s3://airflow-dags-k8s/airflow-logs"
+    AIRFLOW__LOGGING__DELETE_LOCAL_LOGS: "False"
+  logs:
+    remote_logging: True
+    remote_log_conn_id: aws_default  # The connection ID from Step 1
+    remote_base_log_folder: s3://airflow-dags-k8s/airflow-logs
+    logging_level: INFO  # Set logging level to INFO, but can also set to "ERROR"
+    delete_local_logs: false
 dags:  
   gitSync:
     enabled: true
