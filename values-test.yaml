@@ -1,25 +1,7 @@
 executor: "KubernetesExecutor"
-airflow:
-  ## if we use legacy 1.10 airflow commands
-  #legacyCommands: false
-  image:
-    repository: apache/airflow
-    tag: slim-2.9.3-python3.11
-    pullPolicy: IfNotPresent
-  config:    
-    core:
-      base_log_folder: /mnt/airflow-logs
-logs:
-  # Configuration for empty dir volume (if logs.persistence.enabled == false)
-#  emptyDirConfig:
-#    sizeLimit: 1Gi
-#    medium: Memory
-
-  persistence:
-    # Enable persistent volume for storing logs
-    enabled: true
-    storageClassName: local-storage
-    existingClaim: airflow-logs-pvc
+persistence:
+  enabled: true
+  existingClaim: airflow-logs-pvc
 dags:  
   gitSync:
     enabled: true

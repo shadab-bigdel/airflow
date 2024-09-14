@@ -8,7 +8,7 @@ spec:
   accessModes:
     - ReadWriteMany  # Allow multiple pods to read/write
   hostPath:
-    path: /mnt/c/user/sbigdel/airflow-logs  # Directory inside Docker's Linux VM, adjust as needed
+    path: /mnt/airflow-logs  # Directory inside Docker's Linux VM, adjust as needed
 
 
-#minikube mount C:\Users\sbigdel\airflow-logs:/mnt/airflow-logs
+#minikube mount C:/Users/sbigdel/airflow-logs:/mnt/airflow-logs
