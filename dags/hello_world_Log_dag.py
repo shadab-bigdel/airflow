@@ -2,7 +2,7 @@ from airflow import DAG # type: ignore
 from airflow.operators.python_operator import PythonOperator # type: ignore
 from datetime import datetime, timedelta
 import logging
-import boto3 # type: ignore
+#import boto3 # type: ignore
 
 # Default arguments for the DAG
 default_args = {
@@ -25,9 +25,9 @@ def sample_task(**kwargs):
     except Exception as e:
         logging.error(f"Error encountered: {str(e)}")  # Error log example
     # Manually upload a log file to S3 for testing
-    s3 = boto3.client('s3')
-    log_data = "Sample log data from Airflow task"
-    s3.put_object(Bucket='log-modsps', Key='airflow-logs/sample-log.txt', Body=log_data)
+    #s3 = boto3.client('s3')
+    #log_data = "Sample log data from Airflow task"
+    #s3.put_object(Bucket='log-modsps', Key='airflow-logs/sample-log.txt', Body=log_data)
 
 # Define the DAG and set up the task execution flow
 with DAG('sample_dag',
