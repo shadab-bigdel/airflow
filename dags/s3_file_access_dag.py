@@ -12,7 +12,7 @@ def read_s3_file(**kwargs):
         s3_bucket = Variable.get('s3_bucket_name')
         s3_folder = Variable.get('s3_input_directory')
         s3_filename = Variable.get('s3_input_file')
-        aws_conn_id = Variable.get("aws_default")  # Get AWS connection ID
+        aws_conn_id = Variable.get("aws_conn_id")  # Get AWS connection ID
 
         # Log the S3 details
         logging.info(f"Attempting to access S3 bucket: {s3_bucket}, folder: {s3_folder}, file: {s3_filename}")

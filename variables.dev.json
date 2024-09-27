@@ -1,6 +1,6 @@
 {
-  "s3_bucket_name": "airflow-dags-k8s",  
+  "s3_bucket_name": "modsp-input",  
   "s3_input_directory": "input",
   "s3_input_file": "test_input_file.csv",
-  "aws_default": "aws_default"  
+  "aws_conn_id": "aws_default"  
 }
