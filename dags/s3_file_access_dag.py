@@ -12,12 +12,13 @@ def read_s3_file(**kwargs):
         s3_bucket = Variable.get('s3_bucket_name')
         s3_folder = Variable.get('s3_input_directory')
         s3_filename = Variable.get('s3_input_file')
+        aws_conn_id = Variable.get("aws_default")  # Get AWS connection ID
 
         # Log the S3 details
         logging.info(f"Attempting to access S3 bucket: {s3_bucket}, folder: {s3_folder}, file: {s3_filename}")
 
         # Initialize the S3 Hook
-        s3_hook = S3Hook(aws_conn_id='aws_default')  # Replace with your connection if needed
+        s3_hook = S3Hook(aws_conn_id=aws_conn_id)
 
         # Build the key (folder + filename)
         s3_key = f"{s3_folder}/{s3_filename}"
