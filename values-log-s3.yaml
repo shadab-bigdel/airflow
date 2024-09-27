@@ -1,4 +1,12 @@
 executor: "KubernetesExecutor"
+config:
+  logging:
+    remote_logging: True
+    logging_level: INFO
+    remote_base_log_folder: s3://airflow-dags-k8s/airflow-logs # Specify the S3 bucket used for logging
+    remote_log_conn_id: aws_conn # Notice that this name is used in Step3 for creating connections through Airflow UI
+    delete_worker_pods: False
+    encrypt_s3_logs: True
 airflow:
   config:
     AIRFLOW__LOGGING__REMOTE_LOGGING: "True"

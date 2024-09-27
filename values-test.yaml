@@ -1,7 +1,45 @@
 executor: "KubernetesExecutor"
-persistence:
-  enabled: true
-  existingClaim: airflow-logs-pvc
+# User and group of airflow user
+uid: 1000
+gid: 0
+
+securityContext:
+  runAsUser: 1000
+  fsGroup: 0
+  runAsGroup: 0
+
+airflow:
+  config:  
+    AIRFLOW__CORE__BASE_LOG_FOLDER: "/opt/airflow/logs"
+    AIRFLOW__LOGGING__LOGGING_LEVEL: INFO
+    AIRFLOW__CORE__REMOTE_LOGGING: "False" 
+  extraVolumeMounts:
+    - name: airflow-pvc
+      mountPath: "/opt/airflow"    
+    - name: logs-pvc
+      mountPath: "/opt/airflow/logs"
+  extraVolumes:
+    - name: airflow-pvc
+      persistentVolumeClaim:
+        claimName: airflow-pvc    
+    - name: logs-pvc
+      persistentVolumeClaim:
+        claimName: logs-persistent-volume-claim
+logs:
+  # Configuration for empty dir volume (if logs.persistence.enabled == false)
+  emptyDirConfig:
+    sizeLimit: 1Gi
+    medium: Memory
+  persistence:
+    # Enable persistent volume for storing logs
+    enabled: false
+    # Volume size for logs
+    # size: 100Gi
+    # Annotations for the logs PVC
+    # If using a custom storageClass, pass name here
+    # storageClassName: efs-airflow
+    ## the name of an existing PVC to use
+    # existingClaim: airflow-logs-pvc
 dags:  
   gitSync:
     enabled: true
