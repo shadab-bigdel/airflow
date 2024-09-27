@@ -1,14 +1,23 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+<<<<<<< HEAD:pvc.yaml
   name: airflow-logs
   namespace: airflow
   labels:
     app: airflow-logs
+=======
+  name: airflow-pvc
+>>>>>>> f88136812a41ce941cc119ece9f542ebd30a2241:airflow-logs-pvc.yaml
 spec:
   storageClassName: manual
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
+<<<<<<< HEAD:pvc.yaml
       storage: 20Gi
+=======
+      storage: 10Gi
+  storageClassName: manual
+>>>>>>> f88136812a41ce941cc119ece9f542ebd30a2241:airflow-logs-pvc.yaml
