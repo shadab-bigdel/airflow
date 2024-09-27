@@ -1,0 +1,5 @@
+{
+  "s3_bucket_name": "modsps-input",  
+  "s3_input_directory": "input",
+  "s3_input_file": "test_input_file.csv"  
+}

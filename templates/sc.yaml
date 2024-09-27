@@ -1,0 +1,6 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: fs-airflow-sc
+provisioner: k8s.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer

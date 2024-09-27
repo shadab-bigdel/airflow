@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: airflow-logs-pv
+  namespace: airflow-new
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: fs-airflow-sc  # Reference to the storage class sc.yaml
+  hostPath:
+    path: /mnt/c/User/sbigdel/airflow-logs  # Path to local logs
