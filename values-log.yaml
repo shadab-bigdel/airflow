@@ -1,0 +1,36 @@
+executor: "CeleryKubernetesExecutor"
+airflow:
+  image:
+    repository: shbigdel/airflow-custom
+    tag: 1.0.0
+    pullPolicy: Always
+   
+extraEnvFrom: |
+  - configMapRef:
+      name: "airflow-variables"
+
+extraVolumes:
+  - name: data-volume
+    hostPath:
+      path: ./data  # Path on the host
+
+extraVolumeMounts:
+  - name: data-volume
+    mountPath: /data/tmp  # Path inside the container
+    
+dags:
+  # GitSync configuration
+  gitSync:
+    enabled: true
+
+    # Git repository URL
+    repo: https://github.com/shadab-bigdel/airflow.git
+    branch: main
+    # The Git revision to check out (branch, tag, or hash)
+    ref: main
+    depth: 1
+    # Maximum number of consecutive failures allowed before aborting
+    maxFailures: 0
+    # Subpath within the repo where DAGs are located
+    # Should be "" if DAGs are at the repo root
+    subPath: "dags"
