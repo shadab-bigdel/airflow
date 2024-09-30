@@ -30,7 +30,7 @@ default_args = {
 }
 
 # Create the DAG
-with DAG(dag_id='my_dag',
+with DAG(dag_id='import_python_module_dag',
          default_args=default_args,
          schedule_interval='@daily',
          catchup=False) as dag:
