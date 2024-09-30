@@ -1,12 +1,12 @@
-#import os
-#import sys
+import os
+import sys
 from datetime import datetime
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 import logging
 
 # Add the parent directory to the Python path to import the module
-#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Import the external Python module
 from my_module import process_data
@@ -30,7 +30,7 @@ default_args = {
 }
 
 # Create the DAG
-with DAG(dag_id='import_python_module_dag',  # Updated DAG name
+with DAG(dag_id='my_dag',
          default_args=default_args,
          schedule_interval='@daily',
          catchup=False) as dag:
