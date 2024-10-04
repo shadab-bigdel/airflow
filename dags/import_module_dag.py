@@ -3,7 +3,7 @@ from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 import logging
 # Import the external Python module
-from my_module import process_data
+from external_folder.my_module import process_data
 
 # Function to call the external module and log the output
 def task_with_logging():

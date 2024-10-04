@@ -5,8 +5,15 @@ from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 import logging
 
-# Add the parent directory to the Python path to import the module
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+# Define the path to the external_module folder
+external_module_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../external_module'))
+
+# Add the external_module directory to the Python path
+sys.path.append(external_module_path)
+
+# Import the external Python module
+from my_module import process_data
+
 
 # Import the external Python module
 from my_module import process_data
@@ -42,3 +49,4 @@ with DAG(dag_id='import_python_module_dag',
     )
 
     task1
+
