@@ -1,57 +1,34 @@
+from datetime import datetime
 from airflow import DAG
-from airflow.utils.dates import days_ago
-from airflow.hooks.S3_hook import S3Hook
-from airflow.models import Variable
-import logging
-from airflow.operators.python_operator import PythonOperator
+from airflow.operators.dummy import DummyOperator
+from airflow.operators.python import PythonOperator
 
-# Define the function to read from S3
-def read_s3_file(**kwargs):
-    try:
-        # Fetching S3 bucket details from Airflow Variables
-        s3_bucket = Variable.get('s3_bucket_name')
-        s3_folder = Variable.get('s3_input_directory')
-        s3_filename = Variable.get('s3_input_file')
-        aws_conn_id = Variable.get("aws_conn_id")  # Get AWS connection ID
+def my_task(**kwargs):
+    param = kwargs.get('dag_run').conf.get('my_param', 'default_value')
+    print(f"Parameter received: {param}")
 
-        # Log the S3 details
-        logging.info(f"Attempting to access S3 bucket: {s3_bucket}, folder: {s3_folder}, file: {s3_filename}")
+default_args = {
+    'owner': 'airflow',
+    'start_date': datetime(2023, 10, 8),
+}
 
-        # Initialize the S3 Hook
-        s3_hook = S3Hook(aws_conn_id=aws_conn_id)
+dag = DAG(
+    dag_id='example_dag_with_config',
+    default_args=default_args,
+    schedule_interval=None,  # Set to None for manual triggering
+    catchup=False,
+)
 
-        # Build the key (folder + filename)
-        s3_key = f"{s3_folder}/{s3_filename}"
+start = DummyOperator(
+    task_id='start',
+    dag=dag,
+)
 
-        # Read the file from S3
-        file_content = s3_hook.read_key(key=s3_key, bucket_name=s3_bucket)
+run_task = PythonOperator(
+    task_id='run_task',
+    python_callable=my_task,
+    provide_context=True,
+    dag=dag,
+)
 
-        # Log file read success and content
-        logging.info(f"Successfully accessed and read file from S3. Content: {file_content}")
-
-    except Exception as e:
-        logging.error(f"Error accessing or reading file from S3: {str(e)}")
-        raise
-
-# Define the DAG
-with DAG(
-    dag_id='s3_file_access_dag',
-    default_args={
-        'owner': 'airflow',
-        'retries': 1,
-    },
-    description='A DAG to read file from S3 and log info or errors',
-    schedule_interval=None,
-    start_date=days_ago(1),
-    catchup=False
-) as dag:
-
-    # Define the PythonOperator to read the S3 file
-    read_s3_task = PythonOperator(
-        task_id='read_s3_file',
-        python_callable=read_s3_file,
-        provide_context=True
-    )
-
-    # Set the task sequence
-    read_s3_task
+start >> run_task
