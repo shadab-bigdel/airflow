@@ -7,6 +7,15 @@ migrateDatabaseJob:
   applyCustomEnv: false
   jobAnnotations:
     "argocd.argoproj.io/hook": Sync
+logs:
+  persistence:
+    enabled: true                # Enable persistence for logs
+    existingClaim: "airflow-pvc"  # Use the PVC you created
+    accessMode: ReadWriteOnce     # Ensure correct access mode
+    size: 10Gi                    # Size of the requested storage
+    storageClass: ""              # Leave it empty if you're not using a storage class
+    path: "/root/airflow/logs"    # Path inside the container where logs are stored
+    subPath: ""                   # Optional subpath inside the volume
 dags:  
   gitSync:
     enabled: true
